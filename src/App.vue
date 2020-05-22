@@ -1,9 +1,9 @@
 <template>
-	<main id="app" class="">
-		<aside>
+	<main id="app" class="d-flex flex flex-sm-column flex-md-row py-5 col col-12 col-sm-12 bg">
+		<aside class="col col-12 col-sm-2">
 			<app-filter></app-filter>
 		</aside>
-		<article>
+		<article class="col col-12 col-sm-10">
 			<app-selected-filter></app-selected-filter>
 			<app-search></app-search>
 			<app-characters></app-characters>
@@ -30,5 +30,10 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.bg{
+	background: url('./assets/whirlpool.png') center ;
+	background-repeat: repeat;
+	background-size:auto;
+}
 </style>
