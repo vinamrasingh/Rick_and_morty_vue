@@ -10,3 +10,12 @@ export const characters = (state) => {
 export const searchText = (state) => {
     return state.searchText;
 }
+export const errorShow = (state) => {
+    return state.errorShow;
+}
+export const prev = (state) => {
+    return state.prev;
+}
+export const next = (state) => {
+    return state.next;
+}

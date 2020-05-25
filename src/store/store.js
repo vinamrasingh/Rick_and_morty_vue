@@ -16,7 +16,12 @@ export default new Vuex.Store({
         selectedFilters: [],
         searchText: '',
         appliedFilters: [],
-        characters: []
+        characters: [],
+        prevUrl: '',
+        nextUrl: '',
+        errorShow: false,
+        prev:null,
+        next:null
     },
     mutations,
     actions,

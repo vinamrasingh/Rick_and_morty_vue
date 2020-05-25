@@ -33,22 +33,35 @@ export const runFilters = ({ dispatch, state }) => {
     filterData.forEach(obj => {
         query += obj.key + '=' + obj.value + '&'
     });
-    dispatch("fetchCharacters", query);
+    dispatch("fetchCharacters", { query });
 }
 
-export const fetchCharacters = ({ commit, state }, query) => {
-    if (!query) {
-        query = '';
+export const fetchCharacters = ({ commit, state }, params) => {
+    let query = "", url = "https://rickandmortyapi.com/api/character/?"
+    if (params) {
+
+        if (params.query) {
+            query = params.query;
+        }
+        if (params.url) {
+            url = params.url.concat("&");
+        }
     }
-    let url = `https://rickandmortyapi.com/api/character/?${query}`;
-    console.log('url', url);
-    axios.get(url)
+    let api = `${url}${query}`;
+    console.log('url', api);
+    axios.get(api)
         .then(res => {
+            const info = res.data.info;
             const data = res.data.results;
             console.log(data);
+            commit('prev', info.prev);
+            commit('next', info.next);
             commit('characters', data);
+            commit('errorShow', false);
         })
-        .catch(error => console.error(error));
+        .catch(error => {
+            commit('errorShow', true);
+        });
 }
 
 export const searchByName = ({ dispatch, commit, state }, text) => {
