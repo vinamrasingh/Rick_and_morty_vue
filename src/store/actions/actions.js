@@ -1,42 +1,63 @@
 import axios from 'axios';
+import { filteredCharacters } from '../mutations/mutations';
 
 export const updateSelectedFilters = ({ dispatch, commit, state }) => {
-    const selectedFilters = [];
+    let selectedFilters = {};
     for (let key in state.filters) {
         let filterItem = state.filters[key];
         filterItem.forEach((element, index) => {
             if (element.selected) {
-                selectedFilters.push(
-                    {
-                        key,
-                        index,
-                        value: element.value
-                    }
-                )
+                if (!selectedFilters[key]) {
+                    selectedFilters[key] = [];
+                    selectedFilters[key].push(element.value);
+                }
+                else {
+                    selectedFilters[key].push(element.value);
+                }
+
             }
         });
     }
+    console.log('selectedFilters', selectedFilters);
     commit('selectedFilters', selectedFilters);
     dispatch('runFilters');
 }
 
 export const clickSelectedFilter = ({ dispatch, commit, state }, filter) => {
     let filters = state.filters;
-    filters[filter.key][filter.index].selected = false;
+    filters[filter.name].forEach(item => {
+        if (item.value == filter.value) {
+            item.selected = false;
+        }
+    })
     commit("filters", filters);
     dispatch('updateSelectedFilters');
 }
 
-export const runFilters = ({ dispatch, state }) => {
-    let filterData = state.appliedFilters;
-    let query = '';
-    filterData.forEach(obj => {
-        query += obj.key + '=' + obj.value + '&'
+export const runFilters = ({ commit, state }) => {
+    let filterData = state.selectedFilters;
+    let allCharacters = state.characters;
+    let filteredCharacters = [];
+
+    var filterKeys = Object.keys(filterData);
+    filteredCharacters = allCharacters.filter(function (eachObj) {
+        return filterKeys.every(function (eachKey) {
+            if (!filterData[eachKey].length) {
+                return true;
+            }
+            if (eachKey == "name") {
+                return eachObj[eachKey].includes(filterData[eachKey]);
+            } else {
+                return filterData[eachKey].includes(eachObj[eachKey]);
+            }
+        });
     });
-    dispatch("fetchCharacters", { query });
+    console.log('filteredCharacters', filteredCharacters);
+    commit('filteredCharacters', filteredCharacters);
 }
 
-export const fetchCharacters = ({ commit, state }, params) => {
+
+export const fetchCharacters = ({ dispatch, commit, state }, params) => {
     let query = "", url = "https://rickandmortyapi.com/api/character/?"
     if (params) {
 
@@ -58,6 +79,7 @@ export const fetchCharacters = ({ commit, state }, params) => {
             commit('next', info.next);
             commit('characters', data);
             commit('errorShow', false);
+            dispatch('runFilters');
         })
         .catch(error => {
             commit('errorShow', true);
@@ -70,7 +92,7 @@ export const searchByName = ({ dispatch, commit, state }, text) => {
 }
 
 export const sortArrangement = ({ commit, state }, sortOrder) => {
-    let characters = state.characters;
+    let characters = state.filteredCharacters;
     if (sortOrder.orderBy === 'asc') {
         characters.sort((a, b) => {
             return a[sortOrder.sortBy] - b[sortOrder.sortBy];
@@ -82,5 +104,5 @@ export const sortArrangement = ({ commit, state }, sortOrder) => {
         })
         characters.reverse();
     }
-    commit("characters", characters);
+    commit("filteredCharacters", characters);
 }

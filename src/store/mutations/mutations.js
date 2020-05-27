@@ -1,21 +1,33 @@
 export const selectedFilters = (state, selectedFilters) => {
     state.selectedFilters = selectedFilters
-    state.appliedFilters = [...state.selectedFilters, {
-        key: "name",
-        value: state.searchText,
-        index: null
-    }]
+    if (name == "") {
+        if (state.selectedFilters["name"]) {
+            delete state.selectedFilters.name
+        }
+    }
+    else {
+        state.selectedFilters["name"] = []
+        state.selectedFilters["name"].push(state.searchText);
+    }
 }
 export const characters = (state, characters) => {
-    state.characters = characters
+    state.characters = characters;
+}
+export const filteredCharacters = (state, filteredCharacters) => {
+    state.filteredCharacters = filteredCharacters;
 }
 export const nameSearch = (state, name) => {
     state.searchText = name;
-    state.appliedFilters = [...state.selectedFilters, {
-        key: "name",
-        value: state.searchText,
-        index: null
-    }]
+    if (name == "") {
+        if (state.selectedFilters["name"]) {
+            delete state.selectedFilters.name
+        }
+    }
+    else {
+        state.selectedFilters["name"] = []
+        state.selectedFilters["name"].push(state.searchText);
+    }
+
 }
 export const filters = (state, filters) => {
     state.filters = filters;

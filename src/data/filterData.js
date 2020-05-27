@@ -1,3 +1,5 @@
+import { characters } from "../store/mutations/mutations";
+
 const filterData = {
 
     species: [
@@ -14,7 +16,15 @@ const filterData = {
             selected: false
         },
         {
-            value: 'Others',
+            value: 'Humanoid',
+            selected: false
+        },
+        {
+            value: 'Animal',
+            selected: false
+        },
+        {
+            value: 'Vampire',
             selected: false
         }
     ],
@@ -27,15 +37,12 @@ const filterData = {
             value: 'Female',
             selected: false
         },
-    ],
-    origin: [
         {
-            value: 'Nuptia 4',
+            value: 'unknown',
             selected: false
-
         }
     ]
-
 }
+
 
 export default filterData;

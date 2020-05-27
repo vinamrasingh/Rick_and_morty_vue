@@ -7,6 +7,9 @@ export const selectedFilters = (state) => {
 export const characters = (state) => {
     return state.characters;
 }
+export const filteredCharacters = (state) => {
+    return state.filteredCharacters;
+}
 export const searchText = (state) => {
     return state.searchText;
 }

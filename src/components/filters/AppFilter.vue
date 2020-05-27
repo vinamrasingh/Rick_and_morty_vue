@@ -7,7 +7,7 @@
 				class="list-unstyled d-flex flex-column"
 			>
 				<h4>{{key | toUpperCase}}</h4>
-				<div class="pl-3 pr-5 py-3 border border-primary rounded">
+				<div class="pl-3 pr-5 py-3 pl-md-2 border border-primary rounded">
 					<li v-for="(filterItem, filterKey) in filter" :key="filterKey" class="form-check">
 						<label for="'filter_'+filterItem.value" class="form-check-label">
 							<input
@@ -25,25 +25,5 @@
 		</div>
 	</section>
 </template>
-<script>
-export default {
-	data() {
-		return {};
-	},
-	filters: {
-		toUpperCase(value) {
-			return value.toUpperCase();
-		}
-	},
-	computed: {
-		filterList() {
-			return this.$store.getters.filters;
-		}
-	},
-	methods: {
-		updateSelectedFilter() {
-			this.$store.dispatch("updateSelectedFilters");
-		}
-	}
-};
+<script src="./app-filter.js">
 </script>
