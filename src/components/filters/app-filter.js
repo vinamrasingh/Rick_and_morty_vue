@@ -1,7 +1,4 @@
 export default {
-    data() {
-        return {};
-    },
     filters: {
         toUpperCase(value) {
             return value.toUpperCase();

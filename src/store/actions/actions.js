@@ -14,11 +14,9 @@ export const updateSelectedFilters = ({ dispatch, commit, state }) => {
                 else {
                     selectedFilters[key].push(element.value);
                 }
-
             }
         });
     }
-    console.log('selectedFilters', selectedFilters);
     commit('selectedFilters', selectedFilters);
     dispatch('runFilters');
 }
@@ -52,7 +50,6 @@ export const runFilters = ({ commit, state }) => {
             }
         });
     });
-    console.log('filteredCharacters', filteredCharacters);
     commit('filteredCharacters', filteredCharacters);
 }
 
@@ -69,12 +66,10 @@ export const fetchCharacters = ({ dispatch, commit, state }, params) => {
         }
     }
     let api = `${url}${query}`;
-    console.log('url', api);
     axios.get(api)
         .then(res => {
             const info = res.data.info;
             const data = res.data.results;
-            console.log(data);
             commit('prev', info.prev);
             commit('next', info.next);
             commit('characters', data);
