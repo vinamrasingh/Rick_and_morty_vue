@@ -15,9 +15,13 @@ export default {
         }
     },
     created() {
-        this.$store.dispatch("fetchCharacters");
+        this.getCharacters();
+
     },
     methods: {
+        getCharacters() {
+            this.$store.dispatch("fetchCharacters");
+        },
         prevPage() {
             const prev = this.$store.getters.prev;
             if (prev != null) {
